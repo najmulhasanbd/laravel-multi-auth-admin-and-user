@@ -13,6 +13,10 @@
             margin: 0;
         }
 
+        a {
+            text-decoration: none
+        }
+
         .sidebar {
             position: fixed;
             top: 60px;
