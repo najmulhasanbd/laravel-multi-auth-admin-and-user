@@ -1,26 +1,19 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Admin Dashboard') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're Admin Dashboard!") }}
+@extends('admin.layouts.master')
+@section('content')
+    <div class="main-content">
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4 ">
+                <div class="singleCard card p-4 shadow">
+                    <h2>10</h2>
+                    <small>Lorem ipsum dolor sit.</small>
                 </div>
-                <form method="POST" action="{{ route('admin.logout') }}">
-                    @csrf
-
-                    <x-dropdown-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-dropdown-link>
-                </form>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 ">
+                <div class="singleCard card p-4 shadow">
+                    <h2>10</h2>
+                    <small>Lorem ipsum dolor sit.</small>
+                </div>
             </div>
         </div>
     </div>
-</x-app-layout>
+@endsection

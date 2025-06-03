@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\Admin\LandFormController;
 use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,4 +25,6 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
     Route::post('logout', [LoginController::class, 'destroy'])
         ->name('admin.logout');
+
+    Route::get('land-form',[LandFormController::class,'landform'])->name('land.form');
 });
