@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\LandFormController;
 use App\Http\Controllers\Admin\DistrictController;
+use App\Http\Controllers\Admin\ThanaController;
 use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,7 +30,7 @@ Route::prefix('admin')
         Route::post('logout', [LoginController::class, 'destroy'])->name('admin.logout');
 
         //district
-        Route::prefix('admin')
+        Route::prefix('district')
             ->name('district.')
             ->group(function () {
                 Route::get('/districts', [DistrictController::class, 'index'])->name('index');
@@ -38,6 +39,17 @@ Route::prefix('admin')
                 Route::get('/districts/{id}/edit', [DistrictController::class, 'edit'])->name('edit');
                 Route::put('/districts/{id}', [DistrictController::class, 'update'])->name('update');
                 Route::delete('/districts/{id}', [DistrictController::class, 'delete'])->name('delete');
+            });
+        //thana
+        Route::prefix('thana')
+            ->name('thana.')
+            ->group(function () {
+                Route::get('/thanas', [ThanaController::class, 'index'])->name('index');
+                Route::get('/thanas/create', [ThanaController::class, 'create'])->name('create');
+                Route::post('/thanas', [ThanaController::class, 'store'])->name('store');
+                Route::get('/thanas/{id}/edit', [ThanaController::class, 'edit'])->name('edit');
+                Route::put('/thanas/{id}', [ThanaController::class, 'update'])->name('update');
+                Route::delete('/thanas/{id}', [ThanaController::class, 'delete'])->name('delete');
             });
 
         Route::get('land-list', [LandFormController::class, 'landform'])->name('land.form');

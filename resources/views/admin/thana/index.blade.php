@@ -4,31 +4,31 @@
     <div class="main-content">
         <div class="row">
             <div class="col-12 col-md-6 mx-auto">
-                <div class="header mb-2 d-flex justify-content-between align-items-center">
-                    <h4>District List</h4>
-                    <a href="{{ route('district.create') }}" class="btn btn-success btn-sm">Add District</a>
+                <div class="header d-flex justify-content-between align-items-center mb-2">
+                    <h4>Thana List</h4>
+                    <a href="{{ route('thana.create') }}" class="btn btn-success btn-sm">Add Thana</a>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th scope="col">SL</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Action</th>
+                                <th>SL</th>
+                                <th>Thana Name</th>
+                                <th>District</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($districts as $key => $item)
+                            @foreach ($thanas as $key => $thana)
                                 <tr>
-                                    <th scope="row">{{ $key + 1 }}</th>
-                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ ucwords($thana->name) }}</td>
+                                    <td>{{ ucwords($thana->district->name) ?? 'N/A' }}</td>
                                     <td>
-                                        <a href="{{ route('district.edit', $item->id) }}"
-                                            class="btn btn-sm btn-info">Edit</a>
-                                        <form action="{{ route('district.delete', $item->id) }}" method="POST"
+                                        <a href="{{ route('thana.edit', $thana->id) }}" class="btn btn-sm btn-info">Edit</a>
+                                        <form action="{{ route('thana.delete', $thana->id) }}" method="POST"
                                             style="display:inline-block;">
-                                            @csrf
-                                            @method('DELETE')
+                                            @csrf @method('DELETE')
                                             <button class="btn btn-sm btn-danger"
                                                 onclick="return confirm('Are you sure?')">Delete</button>
                                         </form>
