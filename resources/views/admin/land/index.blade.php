@@ -4,7 +4,7 @@
     <div class="main-content">
         <div class="header mb-2 d-flex justify-content-between align-items-center">
             <h4>Land List</h4>
-            <a href="" class="btn btn-success btn-sm">Add Land</a>
+            <a href="{{ route('land.create') }}" class="btn btn-success btn-sm">Add Land</a>
         </div>
         <div class="table-responsive">
             <table class="table table-bordered table-striped">

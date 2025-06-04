@@ -10,4 +10,8 @@ class LandFormController extends Controller
     public function landform(){
         return view('admin.land.index');
     }
+
+    public function landCreate(){
+        return view('admin.land.add');
+    }
 }
