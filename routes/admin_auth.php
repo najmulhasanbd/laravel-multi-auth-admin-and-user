@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\LandFormController;
 use App\Http\Controllers\Admin\DistrictController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ThanaController;
 use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
@@ -23,9 +24,11 @@ Route::prefix('admin')
     ->middleware('auth:admin')
     ->group(function () {
         //admin dashboard
-        Route::get('/dashboard', function () {
-            return view('admin.dashboard');
-        })->name('admin.dashboard');
+        // Route::get('/dashboard', function () {
+        //     return view('admin.dashboard');
+        // })->name('admin.dashboard');
+
+        Route::get('dashboard',[AdminController::class,'dashboard'])->name('admin.dashboard');
 
         Route::post('logout', [LoginController::class, 'destroy'])->name('admin.logout');
 
@@ -51,7 +54,44 @@ Route::prefix('admin')
                 Route::put('/thanas/{id}', [ThanaController::class, 'update'])->name('update');
                 Route::delete('/thanas/{id}', [ThanaController::class, 'delete'])->name('delete');
             });
+        //thana
+        Route::prefix('land')
+            ->name('land.')
+            ->group(function () {
+                Route::get('/lands', [LandFormController::class, 'index'])->name('index');
+                Route::get('/show/{id}', [LandFormController::class, 'show'])->name('show');
+                Route::get('/lands/create', [LandFormController::class, 'create'])->name('create');
+                Route::post('/lands', [LandFormController::class, 'store'])->name('store');
+                Route::get('/lands/{id}/edit', [LandFormController::class, 'edit'])->name('edit');
+                Route::put('/lands/{id}', [LandFormController::class, 'update'])->name('update');
+                Route::delete('/lands/{id}', [LandFormController::class, 'destroy'])->name('delete');
+                Route::get('/get-thana/{district_id}', [LandFormController::class, 'getThana'])->name('get.thana');
+            });
+        Route::get('pdf', function () {
+            $defaultConfig = (new ConfigVariables())->getDefaults();
+            $fontDirs = $defaultConfig['fontDir'];
 
-        Route::get('land-list', [LandFormController::class, 'landform'])->name('land.form');
-        Route::get('land-create', [LandFormController::class, 'landCreate'])->name('land.create');
+            $defaultFontConfig = (new FontVariables())->getDefaults();
+            $fontData = $defaultFontConfig['fontdata'];
+
+            $path = public_path('fonts'); // Ensure your SolaimanLipi.ttf is here
+
+            $mpdf = new Mpdf([
+                'format' => 'A4',
+                'orientation' => 'P',
+                'fontDir' => array_merge($fontDirs, [$path]),
+                'fontdata' => $fontData + [
+                    'solaimanlipi' => [
+                        'R' => 'SolaimanLipi.ttf',
+                        'useOTL' => 0xff,
+                        'useKashida' => 75,
+                    ],
+                ],
+                'default_font' => 'solaimanlipi',
+            ]);
+
+            $html = view('pdf')->render(); // Make sure you have a resources/views/pdf.blade.php file
+            $mpdf->WriteHTML($html);
+            $mpdf->Output('test.pdf', 'I'); // 'I' for inline view in browser, use 'D' for download
+        });
     });
